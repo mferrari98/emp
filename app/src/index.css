@@ -1,0 +1,175 @@
+@import "tailwindcss";
+
+@layer base {
+  :root {
+    --background: 0 0% 100%;
+    --foreground: 0 0% 5%;
+    --card: 0 0% 100%;
+    --card-foreground: 0 0% 5%;
+    --popover: 0 0% 100%;
+    --popover-foreground: 0 0% 5%;
+    --primary: 151 100% 32%;
+    --primary-foreground: 0 0% 100%;
+    --secondary: 210 5% 18%;
+    --secondary-foreground: 0 0% 100%;
+    --muted: 0 0% 96%;
+    --muted-foreground: 0 0% 45%;
+    --accent: 151 100% 32%;
+    --accent-foreground: 0 0% 100%;
+    --destructive: 0 84% 60%;
+    --destructive-foreground: 0 0% 100%;
+    --border: 0 0% 89%;
+    --input: 0 0% 89%;
+    --ring: 151 100% 32%;
+    --radius: 0.5rem;
+  }
+
+  .dark {
+    --background: 0 0% 5%;
+    --foreground: 0 0% 100%;
+    --card: 210 5% 18%;
+    --card-foreground: 0 0% 100%;
+    --popover: 210 5% 18%;
+    --popover-foreground: 0 0% 100%;
+    --primary: 151 100% 32%;
+    --primary-foreground: 0 0% 100%;
+    --secondary: 210 5% 18%;
+    --secondary-foreground: 0 0% 100%;
+    --muted: 0 0% 20%;
+    --muted-foreground: 0 0% 70%;
+    --accent: 151 100% 32%;
+    --accent-foreground: 0 0% 100%;
+    --destructive: 0 84% 60%;
+    --destructive-foreground: 0 0% 100%;
+    --border: 0 0% 20%;
+    --input: 0 0% 20%;
+    --ring: 151 100% 32%;
+    /* Gradient custom properties for dark theme */
+    --gradient-start: 250 8% 8%; /* #141413 */
+    --gradient-mid: 250 5% 4%;   /* #0a0a09 */
+    --gradient-end: 0 0% 0%;     /* #000000 */
+    --contour-color: 108 100% 96%; /* #6ccff6 */
+  }
+
+  :root:not(.dark) {
+    /* Gradient custom properties for light theme */
+    --gradient-start: 48 4% 98%; /* #FAF9F5 */
+    --gradient-mid: 48 2% 97%;   /* #f8f8f6 */
+    --gradient-end: 0 0% 100%;   /* #FFFFFF */
+    --contour-color: 210 4% 12%; /* #1F1E1D */
+  }
+}
+
+body {
+  line-height: 1.5;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* Animaciones de entrada */
+@keyframes slideInScale {
+  from {
+    opacity: 0;
+    transform: scale(0.95) translateY(-10px);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1) translateY(0);
+  }
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+.animate-fade-in {
+  animation: fadeIn 0.6s ease-out forwards;
+}
+
+.animate-fade-in-up {
+  animation: slideInScale 0.3s cubic-bezier(0.4, 0.0, 0.2, 1) forwards;
+  opacity: 0;
+}
+
+/* Stagger effect para las cards - más rápido */
+.stagger-1 { animation-delay: 0.05s; }
+.stagger-2 { animation-delay: 0.1s; }
+.stagger-3 { animation-delay: 0.15s; }
+.stagger-4 { animation-delay: 0.2s; }
+.stagger-5 { animation-delay: 0.25s; }
+.stagger-6 { animation-delay: 0.3s; }
+
+/* Mesh Gradient Background */
+@keyframes mesh-movement {
+  0%, 100% {
+    transform: translate(0, 0) scale(1);
+    opacity: 1;
+  }
+  33% {
+    transform: translate(30px, -50px) scale(1.1);
+    opacity: 0.8;
+  }
+  66% {
+    transform: translate(-20px, 20px) scale(0.9);
+    opacity: 0.9;
+  }
+}
+
+.mesh-gradient-1 {
+  animation: mesh-movement 20s ease-in-out infinite;
+}
+
+.mesh-gradient-2 {
+  animation: mesh-movement 25s ease-in-out infinite reverse;
+}
+
+/* Typewriter effect */
+@keyframes typewriter {
+  from {
+    width: 0;
+  }
+  to {
+    width: 100%;
+  }
+}
+
+.typewriter {
+  overflow: hidden;
+  animation: typewriter 2s steps(21, end) forwards;
+  animation-delay: 0.3s;
+  width: 0;
+  white-space: nowrap;
+}
+
+/*
+ * Gradient Background Implementation
+ *
+ * This section implements the theme-aware gradient background.
+ * The gradient flows from north to south (top to bottom) using CSS custom properties.
+ *
+ * - Dark theme: Vertical gradient from #141413 (top) to #000000 (bottom)
+ * - Light theme: Vertical gradient from #FAF9F5 (top) to #FFFFFF (bottom)
+ */
+.gradient-background {
+  background: linear-gradient(180deg,
+    hsl(var(--gradient-start)) 0%,
+    hsl(var(--gradient-mid)) 50%,
+    hsl(var(--gradient-end)) 100%
+  );
+  position: relative;
+}
+
+/*
+ * Progressive enhancement fallback
+ * Provides solid color background for browsers that don't support CSS gradients
+ */
+@supports not (background: linear-gradient(90deg, #fff, #000)) {
+  .gradient-background {
+    background-color: var(--background);
+  }
+}
